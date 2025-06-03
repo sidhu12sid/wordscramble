@@ -5,8 +5,8 @@ const Header = () => {
   return (
     <>
      <nav>
-        <div className="flex items-center justify-between p-4 bg-blue-400 text-white"> 
-        <Link to="/"> <img src={Logo} alt="logo" className='w-15 h-15'/></Link>
+        <div className="flex items-center justify-center shadow-md"> 
+        <Link to="/"> <img src={Logo} alt="logo" className='w-20 h-20'/></Link>
         </div>
      </nav>
     </>
