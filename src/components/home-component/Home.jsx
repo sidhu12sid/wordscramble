@@ -1,35 +1,24 @@
+import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
+import Game from '../game-component/Game';
 
 const Home = () => {
 
- const [scrambledWord, setScrambledWord] = useState('');
-
- const getRandomWord  = async() => {
-  const url = "https://random-words5.p.rapidapi.com/getMultipleRandom";
-
-await axios.get(url,{
-    params:{
-      count : 1
-    },   
-  headers: {
-    'x-rapidapi-host': 'random-words5.p.rapidapi.com',
-    'x-rapidapi-key': 'b46d8de99amshc3f87ccedb50fd4p131168jsn4a983a8cfd02'
-  }
-  }).then(response => {
-    setScrambledWord(response.data[0]);
-  }).catch(error => {
-    console.error("Error fetching random word:", error);
-  });
+ const [gameComponent, setGameComponent] = useState(false);
+ const showGameComponent = () => {
+  setGameComponent(true);
  }
 
-
   return (
-    <>
-     <div>
-      
-      <p>the scrambled word is  {scrambledWord}</p>
-     </div>
+    <>  
+    {!gameComponent && ( <div>
+        <button type="button" onClick={showGameComponent}>START GAME</button>
+     </div>)}
+
+      {gameComponent && <Game
+        isStarted = {gameComponent}
+      />}
     </>
   )
 }
