@@ -32,12 +32,13 @@ const Game = ({ isStarted }) => {
     userScore :0,
     word : "",
     userInput: "",
-    resetTimerKey : 0
+    resetTimerKey : 0,
+    isStarted:isStarted
   });
 
 useEffect(() => {
   debugger
-if(isStarted) {
+if(gameState.isStarted) {
   getNewWord();
 }}, [gameState.isStarted]);
 
