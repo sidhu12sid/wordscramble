@@ -15,7 +15,7 @@ const Game = ({ isStarted }) => {
     "cat", "dog", "egg", "fish", "goat", "hat", "ice", "jar", "kid", "log",
     "mat", "net", "oak", "pig", "quail", "rat", "sun", "tan", "urn", "van",  "acorn", "beach", "cactus", "dolphin", "eagle", "feather", "garden", "harvest", "iceberg", "jungle",
     "kayak", "ladder", "marsh", "nectar", "orchid", "pebble", "quiver", "ripple", "saddle", "tundra",
-    "urchin", "valley", "willow", "xenon", "yarrow", "zephyr", "albatross", "blossom", "canyon", "drizzle",
+    "urchin", "valley", "willow", "xenon", "arrow", "zephyr", "albatross", "blossom", "canyon", "drizzle",
     "ember", "fjord", "glacier", "hammock", "island", "jigsaw", "kiln", "lagoon", "meadow", "nugget",
     "oasis", "pinnacle", "quartz", "reef", "sprout", "timber", "upland", "vista", "wombat", "xerox",
     "model", "update", "amber", "breeze", "cliff", "dune", "echo", "fern", "grove", "horizon",
