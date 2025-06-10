@@ -217,6 +217,7 @@ const Game = () => {
     userInput: "",
     resetTimerKey: 0,
     isStarted: location.state?.isStarted || false,
+    isTimeout : false
   });
 
   useEffect(() => {
@@ -276,8 +277,15 @@ const Game = () => {
   };
 
   const handleTimeUp = () => {
-    alert("Game Over");
-    //  navigate('/');
+    setGameState((prevState) => ({
+      ...prevState,
+      isTimeout: true
+    }));
+    alert("Oops time is up");
+    setTimeout(() => {
+      navigate('/');
+    }, 2000);
+     
   };
 
   const handleSubmit = (e) => {
@@ -296,7 +304,7 @@ const Game = () => {
         <div className="bg-white shadow-2xl w-auto h-auto p-10">
           <div className="pb-1 sm:w-auto md:w-lg flex flex-row justify-between">
             <Timer
-              seconds={30}
+              seconds={5}
               onComplete={handleTimeUp}
               reset={gameState.resetTimerKey}
             />
@@ -329,8 +337,9 @@ const Game = () => {
             </form>    
           </div>
           <div className="">
-            <p className="text-2xl">Scrambled Word : <span  className="font-bold text-3xl">{gameState.scrambledWord}</span></p>
-            </div>
+            <p className="text-xl">Scrambled Word : <span  className="font-bold text-xl">{gameState.scrambledWord}</span></p>
+            {gameState.isTimeout && ( <p className="text-lg">Correct Word : <span  className="font-bold text-lg">{gameState.word}</span></p>)}
+          </div>
         </div>
       </div>
     </>
