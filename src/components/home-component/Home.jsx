@@ -1,23 +1,18 @@
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
-import React, { useEffect, useState } from "react";
-import Game from "../game-component/Game";
+import React from "react";
 import Header from "../header-component/Header";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
-  const [gameComponent, setGameComponent] = useState(false);
-
+  const navigate = useNavigate();
   const showGameComponent = () => {
-    setGameComponent(true);
+    navigate("/game", {state: {isStarted : true}});
   };
 
   return (
     <>
       <Header />
       <div className="h-screen w-full flex flex-col items-center justify-center">
-        {!gameComponent ? (
-          // <div className="bg-white max-w-md mx-auto rounded-3xl shadow-2xl text-center flex flex-col items-center justify-center p-10 md:max-w-2xl sm:h-full">
-          <div className="bg-white max-w-md md:max-w-2xl mx-auto rounded-3xl shadow-2xl text-center flex flex-col items-center justify-center p-10 h-full sm:h-auto">
+      <div className="bg-white max-w-md md:max-w-2xl mx-auto rounded-3xl shadow-2xl text-center flex flex-col items-center justify-center p-10 h-full sm:h-auto">
           <div className="p-15">
               <h1 className="text-4xl font-extrabold text-gray-800 pb-5 drop-shadow-sm">
                 Welcome to the Game
@@ -37,9 +32,6 @@ const Home = () => {
               </button>
             </div>
           </div>
-        ) : (
-          <Game isStarted={gameComponent} />
-        )}
       </div>
     </>
   );

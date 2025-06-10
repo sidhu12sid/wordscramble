@@ -34,7 +34,7 @@ const Timer = ({ seconds, onComplete, reset }) => {
   };
   return (
     <>
-    <div className="text-2xl font-bold text-red-600">
+    <div className="text-lg font-bold text-black">
       Timer : {foramtTime(timeLeft)}
     </div>
     </>
