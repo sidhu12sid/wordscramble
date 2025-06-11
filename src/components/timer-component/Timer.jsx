@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-const Timer = ({ seconds, onComplete, reset }) => {
+const Timer = ({ seconds, onComplete, reset, status }) => {
   const [timeLeft, setTimeLeft] = useState(seconds);
   
   const resetTime = () => {
@@ -13,7 +13,7 @@ const Timer = ({ seconds, onComplete, reset }) => {
   },[reset]);
 
   useEffect(() => {   
-    if (timeLeft <= 0) {
+    if (timeLeft <= 0 && status != '0') {
       onComplete();
       return;
     }

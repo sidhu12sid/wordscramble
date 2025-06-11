@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import Timer from "../timer-component/Timer";
 import Header from "../header-component/Header";
+import Result from "../result-component/Result";
 
 const Game = () => {
   const location = useLocation();
@@ -208,7 +209,19 @@ const Game = () => {
     "valley",
   ];
 
-  const navigate = useNavigate();
+const initialGameState = {
+  scrambledWord: "",
+  isCorrect: false,
+  userScore: 0,
+  word: "",
+  userInput: "",
+  resetTimerKey: 0,
+  isStarted: false,
+  isTimeout : false,
+  hasSubmitted : false,
+  status:''
+}
+
   const [gameState, setGameState] = useState({
     scrambledWord: "",
     isCorrect: false,
@@ -217,22 +230,37 @@ const Game = () => {
     userInput: "",
     resetTimerKey: 0,
     isStarted: location.state?.isStarted || false,
-    isTimeout : false
+    isTimeout : false,
+    hasSubmitted : false,
+    status:''
   });
 
+  const resetGame = () => {
+    
+    const resetTime = gameState.resetTimerKey + 1;
+    setGameState({
+      ...initialGameState,
+      isStarted :true,
+      resetTimerKey: resetTime
+    })
+    getNewWord();
+  }
+
   useEffect(() => {
-    debugger;
     if (gameState.isStarted) {
       getNewWord();
     }
   }, [gameState.isStarted]);
 
   useEffect(() => {
+    
     if (gameState.isCorrect) {
       getNewWord();
+
       setGameState((prevState) => ({
         ...prevState,
         isCorrect: false,
+        hasSubmitted:false
       }));
     }
   }, [gameState.isCorrect]);
@@ -241,11 +269,11 @@ const Game = () => {
     const randomIndex = Math.floor(Math.random() * 200);
     const word = words[randomIndex];
     const scrambledWord = scrambleWord(word);
-    debugger;
+    ;
     setGameState((prevState) => ({
       ...prevState,
       word: word,
-      scrambledWord: scrambledWord,
+      scrambledWord: scrambledWord
     }));
     console.log(word);
   };
@@ -262,51 +290,60 @@ const Game = () => {
   const checkInput = (input) => {
     debugger;
     if (input && input.toLowerCase() === gameState.word.toLowerCase()) {
-      const newScore = gameState.userScore + 1;
-      const resetTime = gameState.resetTimerKey + 1;
       setGameState((prevState) => ({
         ...prevState,
         isCorrect: true,
-        userScore: newScore,
-        resetTimerKey: resetTime,
+        userScore: prevState.userScore + 1,
+        resetTimerKey: prevState.resetTimerKey + 1,
+        hasSubmitted:true,
+        userInput: "",
       }));
     } else {
-      alert("Game over");
-      navigate("/"); // Navigate to home page;
+      setGameState((prevState) => ({
+        ...prevState,
+        isCorrect: false,
+        hasSubmitted:true,
+        status:0
+      }));
     }
   };
 
-  const handleTimeUp = () => {
+  const handleTimeUp = () => { 
+    debugger
     setGameState((prevState) => ({
       ...prevState,
-      isTimeout: true
+      isTimeout: true,
+      hasSubmitted:true,
+      status:1
     }));
-    alert("Oops time is up");
-    setTimeout(() => {
-      navigate('/');
-    }, 2000);
-     
+    console.log(gameState.status)
   };
 
   const handleSubmit = (e) => {
+    debugger;
     e.preventDefault();
-    checkInput(gameState.userInput); // call checkInput with user input
-    setGameState((prevState) => ({
-      ...prevState,
-      userInput: "",
-    })); // clear input box
+    checkInput(gameState.userInput); 
   };
 
   return (
     <>
       <Header />
+      {gameState.hasSubmitted && (gameState.isTimeout || !gameState.isCorrect) && (
+        <Result 
+        status = {gameState.status} 
+        score = {gameState.userScore}
+        finalAnswer={gameState.word}
+        resetGame={resetGame}
+        />
+          )}
       <div className="h-screen w-full flex flex-col items-center justify-center">
         <div className="bg-white shadow-2xl w-auto h-auto p-10">
           <div className="pb-1 sm:w-auto md:w-lg flex flex-row justify-between">
             <Timer
-              seconds={5}
+              seconds={2}
               onComplete={handleTimeUp}
               reset={gameState.resetTimerKey}
+              status={gameState.status}
             />
             <p className="text-lg font-bold">Score : {gameState.userScore} </p>
           </div>
@@ -338,8 +375,7 @@ const Game = () => {
           </div>
           <div className="">
             <p className="text-xl">Scrambled Word : <span  className="font-bold text-xl">{gameState.scrambledWord}</span></p>
-            {gameState.isTimeout && ( <p className="text-lg">Correct Word : <span  className="font-bold text-lg">{gameState.word}</span></p>)}
-          </div>
+            </div>
         </div>
       </div>
     </>
